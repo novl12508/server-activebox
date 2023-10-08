@@ -3,16 +3,30 @@ import authService from "./auth.service.js";
 import { IUser } from "./interface/login.interface.js";
 
 class AuthController {
-  login(req: Request, res: Response) {
-    const body: IUser = req.body;
-    console.log(body);
-    const data = authService.login(body);
-    res.json(data);
+  async login(req: Request, res: Response) {
+    try {
+      const body: IUser = req.body;
+      console.log(body);
+      const data = await authService.login(body);
+      res.json(data);
+    } catch (err) {
+      if (err instanceof Error) {
+        res.json({ message: err.message });
+      }
+      console.error(err);
+    }
   }
-  register(req: Request, res: Response) {
-    const body: IUser = req.body;
-    const data = authService.register(body);
-    res.json(data);
+  async register(req: Request, res: Response) {
+    try {
+      const body: IUser = req.body;
+      const data = await authService.register(body);
+      res.json(data);
+    } catch (err) {
+      if (err instanceof Error) {
+        res.json({ message: err.message });
+      }
+      console.error(err);
+    }
   }
 }
 
