@@ -1,9 +1,11 @@
+import { IUser } from "./interface/login.interface";
+
 class AuthService {
-  login() {
-    return { message: "login" };
+  login(data: IUser) {
+    return data;
   }
-  register() {
-    return { message: "register" };
+  register(data: IUser) {
+    return data;
   }
 }
 

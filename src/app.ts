@@ -1,11 +1,11 @@
 import express from "express";
-import dotenv from "dotenv";
-import path from "path";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 import { router } from "./routing.js";
+import { AppBD } from "./bd.js";
+import { configEnv } from "./config.env.js";
 
-const dirname = path.resolve();
-
-dotenv.config({ path: path.join(dirname, "env", ".env") });
+configEnv();
 const app = express();
 
 const HOST = process.env.HOST;
@@ -13,7 +13,12 @@ const PORT = Number(process.env.PORT);
 
 const start = async () => {
   try {
+    app.use(cors());
+    app.use(cookieParser());
+    app.use(express.json());
     app.use("/api", router);
+
+    await AppBD.initialize();
 
     app.listen(PORT, HOST, () => {
       console.log(`Server started http://${HOST}:${PORT}`);
