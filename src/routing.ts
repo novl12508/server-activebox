@@ -1,0 +1,10 @@
+import { Router } from "express";
+import { posts_router } from "./posts/posts.route.js";
+import { auth_router } from "./auth/auth.route.js";
+
+const router = Router();
+
+router.use("/auth", auth_router);
+router.use("/posts", posts_router);
+
+export { router };

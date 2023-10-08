@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
+import { router } from "./routing.js";
 
 const dirname = path.resolve();
 
@@ -12,8 +13,10 @@ const PORT = Number(process.env.PORT);
 
 const start = async () => {
   try {
+    app.use("/api", router);
+
     app.listen(PORT, HOST, () => {
-      console.log(`Server started ${HOST}:${PORT}`);
+      console.log(`Server started http://${HOST}:${PORT}`);
     });
   } catch (err) {
     console.error(err, "App.js Error");
