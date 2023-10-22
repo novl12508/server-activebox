@@ -13,7 +13,7 @@ const PORT = Number(process.env.PORT);
 
 const start = async () => {
   try {
-    app.use(cors());
+    app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
     app.use(cookieParser());
     app.use(express.json());
     app.use("/api", router);

@@ -7,11 +7,13 @@ class AuthController {
     try {
       const body: IUser = req.body;
       console.log(body);
-      const data = await authService.login(body);
-      res.json(data);
+      const { tokens, ...data } = await authService.login(body);
+
+      res.cookie("refresh_token", tokens.refresh_token);
+      res.json({ data, access_token: tokens.access_token });
     } catch (err) {
       if (err instanceof Error) {
-        res.json({ message: err.message });
+        res.status(400).json({ message: err.message });
       }
       console.error(err);
     }
@@ -19,11 +21,13 @@ class AuthController {
   async register(req: Request, res: Response) {
     try {
       const body: IUser = req.body;
-      const data = await authService.register(body);
-      res.json(data);
+      const { tokens, ...data } = await authService.register(body);
+
+      res.cookie("refresh_token", tokens.refresh_token);
+      res.json({ data, access_token: tokens.access_token });
     } catch (err) {
       if (err instanceof Error) {
-        res.json({ message: err.message });
+        res.status(400).json({ message: err.message });
       }
       console.error(err);
     }

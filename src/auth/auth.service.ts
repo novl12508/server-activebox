@@ -3,6 +3,7 @@ import { User } from "./entities/user.entite.js";
 import { Repository } from "typeorm";
 import { AppBD } from "../bd.js";
 import bcryptjs from "bcryptjs";
+import { jwtGenerate } from "./jwt.generate.js";
 
 class AuthService {
   userRepo: Repository<User>;
@@ -15,8 +16,6 @@ class AuthService {
       const { email, password } = data;
       const user = await this.userRepo.findOneBy({ email });
 
-      console.log(user);
-
       if (!user) {
         throw Error("Такого пользователя не существует");
       }
@@ -27,7 +26,8 @@ class AuthService {
         throw Error("Неверный email или пароль");
       }
 
-      return user;
+      const tokens = await jwtGenerate(user);
+      return { id: user.id, email: user.email, name: user.name, tokens };
     } catch (err) {
       throw err;
     }
@@ -37,10 +37,10 @@ class AuthService {
       const { email, name, password } = data;
       const candidate = await this.userRepo.findOneBy({ email });
 
-      console.log(candidate);
+      console.log(name);
 
       if (candidate) {
-        throw Error("Такой пользователь уже зарегистрировант");
+        throw Error("Такой пользователь уже зарегистрирован");
       }
 
       const salt = await bcryptjs.genSalt(5);
@@ -49,7 +49,8 @@ class AuthService {
       const user = await this.userRepo.create({ email, name, password: hash });
       await this.userRepo.save(user);
 
-      return user;
+      const tokens = await jwtGenerate(user);
+      return { id: user.id, email: user.email, name: user.name, tokens };
     } catch (err) {
       throw err;
     }

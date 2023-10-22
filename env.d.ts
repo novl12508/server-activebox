@@ -9,6 +9,9 @@ global {
       BD_NAME: string;
       BD_USERNAME: string;
       BD_PASSWORD: string;
+      SECRET_ACCESS_TOKEN: string;
+      SECRET_REFRESH_TOKEN: string;
+      CORS_ORIGIN: string;
     }
   }
 }
