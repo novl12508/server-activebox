@@ -9,7 +9,7 @@ class AuthController {
       console.log(body);
       const { tokens, ...data } = await authService.login(body);
 
-      res.cookie("refresh_token", tokens.refresh_token);
+      res.cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
       res.json({ data, access_token: tokens.access_token });
     } catch (err) {
       if (err instanceof Error) {
@@ -23,7 +23,7 @@ class AuthController {
       const body: IUser = req.body;
       const { tokens, ...data } = await authService.register(body);
 
-      res.cookie("refresh_token", tokens.refresh_token);
+      res.cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
       res.json({ data, access_token: tokens.access_token });
     } catch (err) {
       if (err instanceof Error) {
