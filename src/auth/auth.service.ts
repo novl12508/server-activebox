@@ -35,6 +35,11 @@ class AuthService {
   async register(data: IUser) {
     try {
       const { email, name, password } = data;
+
+      if (!name) {
+        throw Error("Поле name не может быть пустым");
+      }
+
       const candidate = await this.userRepo.findOneBy({ email });
 
       console.log(name);

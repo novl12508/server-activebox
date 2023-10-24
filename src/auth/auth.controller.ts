@@ -3,6 +3,14 @@ import authService from "./auth.service.js";
 import { IUser } from "./interface/login.interface.js";
 
 class AuthController {
+  async logout(req: Request, res: Response) {
+    try {
+      res.clearCookie("refresh_token");
+      res.status(200).end();
+    } catch (err) {
+      throw err;
+    }
+  }
   async login(req: Request, res: Response) {
     try {
       const body: IUser = req.body;
