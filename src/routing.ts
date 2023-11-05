@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { posts_router } from "./posts/posts.route.js";
 import { auth_router } from "./auth/auth.route.js";
+import { body } from "express-validator";
 
 const router = Router();
 

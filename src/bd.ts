@@ -1,3 +1,4 @@
+import { Posts } from "./posts/entities/posts.entite.js";
 import { User } from "./auth/entities/user.entite.js";
 import { configEnv } from "./config.env.js";
 import { DataSource } from "typeorm";
@@ -13,5 +14,5 @@ export const AppBD = new DataSource({
   password: process.env.BD_PASSWORD,
   logging: true,
   synchronize: true,
-  entities: [User],
+  entities: [User, Posts],
 });
