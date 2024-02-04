@@ -14,7 +14,7 @@ auth_router.post(
   "/register",
   body("email").isEmail(),
   body("password").isLength({ min: 3, max: 15 }),
-  body("name").isEmpty(),
+  body("name").notEmpty(),
   authController.register
 );
 auth_router.post("/logout", authController.logout);

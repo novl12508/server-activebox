@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import authService from "./auth.service.js";
 import { IUser } from "./interface/login.interface.js";
 import { validationResult } from "express-validator";
+import { ApiError } from "../error/ApiError.js";
 
 class AuthController {
   async logout(req: Request, res: Response) {
@@ -12,13 +13,15 @@ class AuthController {
       throw err;
     }
   }
-  async login(req: Request, res: Response) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const result = validationResult(req);
 
       if (!result.isEmpty()) {
         console.log(result.array());
-        return res.status(400).json({ message: "Некорректные данные" });
+        throw ApiError.badRequest();
+        // return next(ApiError.badRequest());
+        // return res.status(400).json({ message: "Некорректные данные" });
       }
 
       const body: IUser = req.body;
@@ -28,13 +31,10 @@ class AuthController {
       res.cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
       res.json({ data, access_token: tokens.access_token });
     } catch (err) {
-      if (err instanceof Error) {
-        res.status(400).json({ message: err.message });
-      }
-      console.error(err);
+      next(err);
     }
   }
-  async register(req: Request, res: Response) {
+  async register(req: Request, res: Response, next: NextFunction) {
     try {
       const result = validationResult(req);
 
@@ -49,10 +49,7 @@ class AuthController {
       res.cookie("refresh_token", tokens.refresh_token, { httpOnly: true });
       res.json({ data, access_token: tokens.access_token });
     } catch (err) {
-      if (err instanceof Error) {
-        res.status(400).json({ message: err.message });
-      }
-      console.error(err);
+      next(err);
     }
   }
 }

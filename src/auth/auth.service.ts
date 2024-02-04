@@ -1,29 +1,25 @@
 import { IUser } from "./interface/login.interface";
-import { User } from "./entities/user.entite.js";
-import { Repository } from "typeorm";
-import { AppBD } from "../bd.js";
 import bcryptjs from "bcryptjs";
 import { jwtGenerate } from "./jwt.generate.js";
+import userRepository from "../repositories/user.repository.js";
+import { ApiError } from "../error/ApiError.js";
 
 class AuthService {
-  userRepo: Repository<User>;
-  constructor() {
-    this.userRepo = AppBD.getRepository(User);
-  }
-
   async login(data: IUser) {
     try {
       const { email, password } = data;
-      const user = await this.userRepo.findOneBy({ email });
+      const user = await userRepository.findByOne(email);
 
       if (!user) {
-        throw Error("Такого пользователя не существует");
+        throw ApiError.badRequest("Такого пользователя не существует");
+        // throw Error("Такого пользователя не существует");
       }
 
       const compare = await bcryptjs.compare(password, user.password);
 
       if (!compare) {
-        throw Error("Неверный email или пароль");
+        throw ApiError.badRequest("Неверный email или пароль");
+        // throw Error();
       }
 
       const tokens = await jwtGenerate(user);
@@ -37,22 +33,21 @@ class AuthService {
       const { email, name, password } = data;
 
       if (!name) {
-        throw Error("Поле name не может быть пустым");
+        throw ApiError.badRequest("Поле name не может быть пустым");
+        // throw Error("Поле name не может быть пустым");
       }
 
-      const candidate = await this.userRepo.findOneBy({ email });
-
-      console.log(name);
+      const candidate = await userRepository.findByOne(email);
 
       if (candidate) {
-        throw Error("Такой пользователь уже зарегистрирован");
+        throw ApiError.badRequest("Такой пользователь уже зарегистрирован");
+        // throw Error("Такой пользователь уже зарегистрирован");
       }
 
       const salt = await bcryptjs.genSalt(5);
       const hash = await bcryptjs.hash(password, salt);
 
-      const user = await this.userRepo.create({ email, name, password: hash });
-      await this.userRepo.save(user);
+      const user = await userRepository.create({ email, name, password: hash });
 
       const tokens = await jwtGenerate(user);
       return { id: user.id, email: user.email, name: user.name, tokens };

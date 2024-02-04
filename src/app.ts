@@ -2,8 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { router } from "./routing.js";
-import { AppBD } from "./bd.js";
 import { configEnv } from "./config.env.js";
+import { errorMiddleware } from "./middlewares/error.middleware.js";
 
 configEnv();
 const app = express();
@@ -17,8 +17,7 @@ const start = async () => {
     app.use(cookieParser());
     app.use(express.json());
     app.use("/api", router);
-
-    await AppBD.initialize();
+    app.use(errorMiddleware);
 
     app.listen(PORT, HOST, () => {
       console.log(`Server started http://${HOST}:${PORT}`);
