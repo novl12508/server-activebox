@@ -11,9 +11,9 @@ class BasketServices {
     }
   }
 
-  async create(id: number, productId: string) {
+  async create(id: number, productId: string, img: string) {
     try {
-      const basket = await basketRepositories.create(id, productId);
+      const basket = await basketRepositories.create(id, productId, img);
       return basket.products;
     } catch (err) {
       throw err;

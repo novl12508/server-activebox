@@ -7,12 +7,12 @@ class BasketRepositories {
     this.userRepo = new PrismaClient().user;
   }
 
-  async create(id: number, productId: string) {
+  async create(id: number, productId: string, img: string) {
     try {
       console.log(productId);
       const basket = await this.userRepo.update({
         where: { id: +id },
-        data: { products: { create: { productId: +productId } } },
+        data: { products: { create: { productId: +productId, img } } },
         include: { products: true },
       });
       return basket;
@@ -37,7 +37,7 @@ class BasketRepositories {
     try {
       const productsByUser = await this.userRepo.findUnique({
         where: { id: +id },
-        select: { products: { select: { product: true } } },
+        select: { products: { select: { product: true, img: true } } },
       });
       return productsByUser;
     } catch (error) {
