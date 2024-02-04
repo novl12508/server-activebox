@@ -10,7 +10,10 @@ class PostRepositories {
 
   async findByOne(id: string) {
     try {
-      const user = await this.postRepo.findUnique({ where: { id: +id } });
+      const user = await this.postRepo.findUnique({
+        where: { id: +id },
+        include: { user: { select: { name: true } } },
+      });
       return user;
     } catch (error) {
       throw error;
@@ -19,7 +22,9 @@ class PostRepositories {
 
   async findAll() {
     try {
-      const users = await this.postRepo.findMany();
+      const users = await this.postRepo.findMany({
+        include: { user: { select: { name: true } } },
+      });
       return users;
     } catch (error) {
       throw error;
@@ -30,6 +35,7 @@ class PostRepositories {
     try {
       const userCreate = await this.postRepo.create({
         data: { body: data.body, title: data.title, userId: user.id },
+        include: { user: { select: { name: true } } },
       });
       return userCreate;
     } catch (error) {

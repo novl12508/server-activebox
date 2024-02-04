@@ -9,6 +9,7 @@ class BasketRepositories {
 
   async create(id: number, productId: string) {
     try {
+      console.log(productId);
       const basket = await this.userRepo.update({
         where: { id: +id },
         data: { products: { create: { productId: +productId } } },

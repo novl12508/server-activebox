@@ -9,10 +9,6 @@ const basket_route = Router();
 //POST api/basket/create
 basket_route.get("/", AuthMiddleware, basketController.getAll);
 basket_route.get("/:id", AuthMiddleware, basketController.getOne);
-basket_route.post(
-  "/create/:productId",
-  AuthMiddleware,
-  basketController.create
-);
+basket_route.post("/create", AuthMiddleware, basketController.create);
 
 export { basket_route };

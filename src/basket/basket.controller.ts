@@ -18,7 +18,8 @@ class BasketController {
   async create(req: IRequest, res: Response, next: NextFunction) {
     try {
       const { id } = req.user;
-      const { productId } = req.params;
+      const { id: productId } = req.body;
+      console.log(productId);
       const basket = await basketService.create(id, productId);
       res.status(201).json(basket);
     } catch (error) {
