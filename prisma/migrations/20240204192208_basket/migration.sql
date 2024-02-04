@@ -6,3 +6,13 @@
 */
 -- AlterTable
 ALTER TABLE "Basket" ADD COLUMN     "img" TEXT NOT NULL;
+
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
+INSERT INTO "Product" (title, text, link) VALUES ('Салатное', 'Масло нерафинированное, высший сорт, 5л', '/');
