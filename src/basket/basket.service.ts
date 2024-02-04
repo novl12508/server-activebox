@@ -1,7 +1,7 @@
 import basketRepositories from "../repositories/basket.repository.js";
 
 class BasketServices {
-  async getAll(id: string) {
+  async getAll(id: number) {
     try {
       const productsByUserId = await basketRepositories.allByUser(id);
 
@@ -11,9 +11,9 @@ class BasketServices {
     }
   }
 
-  async create(productId: string, id: string) {
+  async create(id: number, productId: string) {
     try {
-      const basket = await basketRepositories.create("2", "1");
+      const basket = await basketRepositories.create(id, productId);
       return basket.products;
     } catch (err) {
       throw err;

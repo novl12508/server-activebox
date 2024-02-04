@@ -7,7 +7,7 @@ class BasketRepositories {
     this.userRepo = new PrismaClient().user;
   }
 
-  async create(productId: string, id: string) {
+  async create(id: number, productId: string) {
     try {
       const basket = await this.userRepo.update({
         where: { id: +id },
@@ -32,7 +32,7 @@ class BasketRepositories {
     }
   }
 
-  async allByUser(id: string) {
+  async allByUser(id: number) {
     try {
       const productsByUser = await this.userRepo.findUnique({
         where: { id: +id },
