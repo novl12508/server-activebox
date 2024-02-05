@@ -19,6 +19,15 @@ class BasketServices {
       throw err;
     }
   }
+
+  async delete(productId: number) {
+    try {
+      await basketRepositories.delete(productId);
+      return;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 export default new BasketServices();

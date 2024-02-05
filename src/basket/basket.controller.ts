@@ -8,7 +8,7 @@ class BasketController {
     try {
       const { id } = req.user;
       const productsByUser = await basketService.getAll(id);
-      console.log(productsByUser);
+      console.log(productsByUser?.products);
       res.status(200).json(productsByUser?.products);
     } catch (error) {
       next(error);
@@ -31,6 +31,16 @@ class BasketController {
     try {
       const { id } = req.params;
       console.log(id);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async delete(req: IRequest, res: Response, next: NextFunction) {
+    try {
+      const { productId } = req.body;
+      await basketService.delete(+productId);
+      res.status(200).json({ message: "Продукт успешно удален" });
     } catch (error) {
       next(error);
     }

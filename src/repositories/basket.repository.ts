@@ -3,8 +3,10 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 
 class BasketRepositories {
   userRepo: Prisma.UserDelegate<DefaultArgs>;
+  basketRepo: Prisma.BasketDelegate<DefaultArgs>;
   constructor() {
     this.userRepo = new PrismaClient().user;
+    this.basketRepo = new PrismaClient().basket;
   }
 
   async create(id: number, productId: string, img: string) {
@@ -37,9 +39,23 @@ class BasketRepositories {
     try {
       const productsByUser = await this.userRepo.findUnique({
         where: { id: +id },
-        select: { products: { select: { product: true, img: true } } },
+        select: {
+          products: { select: { product: true, img: true, id: true } },
+        },
       });
       return productsByUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async delete(productId: number) {
+    try {
+      console.log(productId, "REPO");
+      await this.basketRepo.delete({
+        where: { id: productId },
+      });
+      return;
     } catch (error) {
       throw error;
     }
